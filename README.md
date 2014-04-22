@@ -1,6 +1,8 @@
 # PHP KEYCLIENT LIBRARY
 
 [![Build Status](https://travis-ci.org/eymengunay/php-keyclient.png?branch=master)](https://travis-ci.org/eymengunay/php-keyclient)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/eymengunay/php-keyclient/badges/quality-score.png?s=c43aa5f7931d48b7d02fe58220155cebff11f882)](https://scrutinizer-ci.com/g/eymengunay/php-keyclient/)
+[![Code Coverage](https://scrutinizer-ci.com/g/eymengunay/php-keyclient/badges/coverage.png?s=3932e859f5bcb4d0cded28b2889598dfce1452c4)](https://scrutinizer-ci.com/g/eymengunay/php-keyclient/)
 [![Total Downloads](https://poser.pugx.org/eo/keyclient/downloads.png)](https://packagist.org/packages/eo/keyclient)
 [![Latest Stable Version](https://poser.pugx.org/eo/keyclient/v/stable.png)](https://packagist.org/packages/eo/keyclient)
 
