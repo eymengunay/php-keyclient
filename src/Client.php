@@ -26,19 +26,19 @@ class Client
 
     /**
      * Class constructor
-     * 
+     *
      * @param string $alias  Store identification code given by KeyClient
-     * @param string $secret 
+     * @param string $secret
      */
     public function __construct($alias, $secret)
     {
         $this->alias  = $alias;
-        $this->secret = $secret; 
+        $this->secret = $secret;
     }
 
     /**
      * Create paymentUrl
-     * 
+     *
      * @param  PaymentRequestInterface $payment
      * @return string
      */
@@ -46,7 +46,7 @@ class Client
     {
         $params = array(
             'alias'      => $this->alias,
-            
+
             'importo'    => $payment->getAmount(),
             'divisa'     => $payment->getCurrency(),
             'codTrans'   => $payment->getTransactionCode(),
@@ -54,7 +54,7 @@ class Client
             'url_back'   => $payment->getCancelUrl(),
             'languageId' => $payment->getLanguage(),
 
-            'mac'        => $this->createSignature($payment)
+            'mac'        => $this->signPayment($payment)
         );
 
         foreach ($payment->getNotifications() as $notification) {
@@ -65,14 +65,14 @@ class Client
     }
 
     /**
-     * Create signature
-     * 
+     * Sign payment
+     *
      * @param  PaymentRequestInterface $payment
      * @return string
      */
-    protected function createSignature(PaymentRequestInterface $payment)
+    protected function signPayment(PaymentRequestInterface $payment)
     {
-        $mac = strtr('codTrans={transactionCode}divisa={currency}importo{amount}{secret}', array(
+        $mac = strtr('codTrans={transactionCode}divisa={currency}importo={amount}{secret}', array(
             '{transactionCode}' => $payment->getTransactionCode(),
             '{currency}'        => $payment->getCurrency(),
             '{amount}'          => $payment->getAmount(),
