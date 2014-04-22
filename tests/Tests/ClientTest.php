@@ -32,4 +32,16 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         echo $client->createPaymentUrl($payment);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function testSignature()
+    {
+        $client  = new Client('123', 'esempiodicalcolomac');
+        $payment = new PaymentRequest(1, 'EUR', 'testCILME534', 'http://example.com/completed', 'http://example.com/canceled');
+        $sha1    = $client->signPayment($payment);
+
+        $this->assertEquals('992e40c00b79ad1a6e4a5a8c61e776e696796a79', $sha1);
+    }
 }
