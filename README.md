@@ -38,7 +38,7 @@ $url = $client->createPaymentUrl($payment);
 
 // Redirect to payment url
 header( "Location: $url" );
-
+```
 
 ## Requirements
 * PHP 5.3+
