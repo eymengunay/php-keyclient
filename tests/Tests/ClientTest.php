@@ -36,6 +36,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $redirect = new RedirectNotification('http://example.com/completed');
         $payment->addNotification($redirect);
 
-        echo $client->createPaymentUrl($payment);
+        $client->createPaymentUrl($payment);
     }
 }
