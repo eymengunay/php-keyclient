@@ -1,0 +1,25 @@
+{
+    "name":        "eo/keyclient",
+    "type":        "library",
+    "description": "Key Client library for PHP 5.3+",
+    "keywords":    ["keyclient", "cartasi"],
+    "homepage":    "https://github.com/eymengunay/php-keyclient",
+    "license":     "MIT",
+    "authors": [
+        {
+            "name": "Eymen Gunay",
+            "email": "eymen@egunay.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "autoload":     {
+        "psr-4": { "Eo\\KeyClient\\": "src/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.1.x-dev"
+        }
+    }
+}
