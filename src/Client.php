@@ -51,14 +51,19 @@ class Client
             'divisa'     => $payment->getCurrency(),
             'codTrans'   => $payment->getTransactionCode(),
             'session_id' => $payment->getSession(),
+            'url'        => $payment->getCompleteUrl(),
             'url_back'   => $payment->getCancelUrl(),
             'languageId' => $payment->getLanguage(),
 
             'mac'        => $this->signPayment($payment)
         );
 
-        foreach ($payment->getNotifications() as $notification) {
-            $params[$notification->getKey()] = $notification->getValue();
+        if ($mail = $payment->getMail()) {
+            $params['mail'] = $mail;
+        }
+
+        if ($s2s = $payment->getS2S()) {
+            $params['url_post'] = $s2s;
         }
 
         return sprintf('%s?%s', $this->endpoint, http_build_query($params));
@@ -70,7 +75,7 @@ class Client
      * @param  PaymentRequestInterface $payment
      * @return string
      */
-    protected function signPayment(PaymentRequestInterface $payment)
+    public function signPayment(PaymentRequestInterface $payment)
     {
         $mac = strtr('codTrans={transactionCode}divisa={currency}importo={amount}{secret}', array(
             '{transactionCode}' => $payment->getTransactionCode(),

@@ -2,8 +2,6 @@
 
 namespace Eo\KeyClient\Payment;
 
-use Eo\KeyClient\Notification\NotificationInterface;
-
 /**
  * PaymentRequest
  */
@@ -27,6 +25,11 @@ class PaymentRequest implements PaymentRequestInterface
     /**
      * @var string
      */
+    protected $completeUrl;
+
+    /**
+     * @var string
+     */
     protected $cancelUrl;
 
     /**
@@ -40,29 +43,36 @@ class PaymentRequest implements PaymentRequestInterface
     protected $language;
 
     /**
-     * @var array
+     * @var string
      */
-    protected $notifications = array();
+    protected $mail;
+
+    /**
+     * @var string
+     */
+    protected $s2s;
 
     /**
      * Class constructor
-     * 
+     *
      * @param int    $amount          Total amount expressed in cents
      * @param string $currency        3 character currency code
      * @param string $transactionCode Unique payment identifier code
+     * @param string $completeUrl     Redirect url for when the payment is completed
      * @param string $cancelUrl       Redirect url for when the payment is canceled
      */
-    public function __construct($amount, $currency, $transactionCode, $cancelUrl)
+    public function __construct($amount, $currency, $transactionCode, $completeUrl, $cancelUrl)
     {
         $this->amount          = $amount;
         $this->currency        = $currency;
         $this->transactionCode = $transactionCode;
+        $this->completeUrl     = $completeUrl;
         $this->cancelUrl       = $cancelUrl;
     }
 
     /**
      * Get amount
-     * 
+     *
      * @return int
      */
     public function getAmount()
@@ -72,7 +82,7 @@ class PaymentRequest implements PaymentRequestInterface
 
     /**
      * Get currency
-     * 
+     *
      * @return string
      */
     public function getCurrency()
@@ -82,7 +92,7 @@ class PaymentRequest implements PaymentRequestInterface
 
     /**
      * Get transactionCode
-     * 
+     *
      * @return string
      */
     public function getTransactionCode()
@@ -91,8 +101,18 @@ class PaymentRequest implements PaymentRequestInterface
     }
 
     /**
+     * Get completeUrl
+     *
+     * @return string
+     */
+    public function getCompleteUrl()
+    {
+        return $this->completeUrl;
+    }
+
+    /**
      * Get cancelUrl
-     * 
+     *
      * @return string
      */
     public function getCancelUrl()
@@ -147,22 +167,48 @@ class PaymentRequest implements PaymentRequestInterface
     }
 
     /**
-     * Add notification
-     * 
-     * @param NotificationInterface $notification
+     * Set mail
+     *
+     * @param  string $mail
+     * @return string
      */
-    public function addNotification(NotificationInterface $notification)
+    public function setMail($mail)
     {
-        $this->notifications[] = $notification;
+        $this->mail = $mail;
+
+        return $this;
     }
 
     /**
-     * Get notifications
-     * 
-     * @return array
+     * Get mail
+     *
+     * @return string
      */
-    public function getNotifications()
+    public function getMail()
     {
-        return $this->notifications;
+        return $this->mail;
+    }
+
+    /**
+     * Set s2s
+     *
+     * @param  string $s2s
+     * @return string
+     */
+    public function setS2S($s2s)
+    {
+        $this->s2s = $s2s;
+
+        return $this;
+    }
+
+    /**
+     * Get s2s
+     *
+     * @return string
+     */
+    public function getS2S()
+    {
+        return $this->s2s;
     }
 }
