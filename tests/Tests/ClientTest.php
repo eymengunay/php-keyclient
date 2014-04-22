@@ -29,8 +29,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $payment = new PaymentRequest(5000, 'EUR', time(), 'http://example.com/completed', 'http://example.com/canceled');
         $payment->setSession('123456');
         $payment->setLanguage('ITA-ENG');
+        $payment->setMail('hello@example.com');
+        $payment->setS2S('http://example.com/s2s');
 
-        echo $client->createPaymentUrl($payment);
+        $client->createPaymentUrl($payment);
     }
 
     /**
