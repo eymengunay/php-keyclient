@@ -124,7 +124,7 @@ class PaymentRequest implements PaymentRequestInterface
      * Set session
      *
      * @param  string $session
-     * @return string
+     * @return self
      */
     public function setSession($session)
     {
@@ -147,7 +147,7 @@ class PaymentRequest implements PaymentRequestInterface
      * Set language
      *
      * @param  string $language
-     * @return string
+     * @return self
      */
     public function setLanguage($language)
     {
@@ -170,7 +170,7 @@ class PaymentRequest implements PaymentRequestInterface
      * Set mail
      *
      * @param  string $mail
-     * @return string
+     * @return self
      */
     public function setMail($mail)
     {
@@ -193,7 +193,7 @@ class PaymentRequest implements PaymentRequestInterface
      * Set s2s
      *
      * @param  string $s2s
-     * @return string
+     * @return self
      */
     public function setS2S($s2s)
     {
