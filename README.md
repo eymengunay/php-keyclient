@@ -29,7 +29,6 @@ To add PHP-KeyClient as a local, per-project dependency to your project, simply 
 
 use Eo\KeyClient\Client;
 use Eo\KeyClient\Payment\PaymentRequest;
-use Eo\KeyClient\Notification\RedirectNotification;
 
 $client  = new Client('YOUR-ALIAS', 'YOUR-SECRET');
 $payment = new PaymentRequest(5000, 'EUR', 'UNIQUE-ID', 'http://example.com/completed', 'http://example.com/canceled');
