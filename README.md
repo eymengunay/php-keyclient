@@ -31,10 +31,8 @@ use Eo\KeyClient\Client;
 use Eo\KeyClient\Payment\PaymentRequest;
 use Eo\KeyClient\Notification\RedirectNotification;
 
-$client   = new Client('YOUR-ALIAS', 'YOUR-SECRET');
-$payment  = new PaymentRequest(5000, 'EUR', 'UNIQUE-ID', 'http://example.com/canceled');
-$redirect = new RedirectNotification('http://example.com/completed');
-$payment->addNotification($redirect);
+$client  = new Client('YOUR-ALIAS', 'YOUR-SECRET');
+$payment = new PaymentRequest(5000, 'EUR', 'UNIQUE-ID', 'http://example.com/completed', 'http://example.com/canceled');
 
 $url = $client->createPaymentUrl($payment);
 
