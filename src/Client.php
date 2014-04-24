@@ -118,7 +118,7 @@ class Client
         }
 
         // Verify signature and its exception
-        if ($this->verifySignature($response)) {
+        if ($this->verifySignature($response) !== true) {
             throw new KeyClientException('Signature can not be verified');
         }
 
