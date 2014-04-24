@@ -43,25 +43,25 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $_REQUEST['session_id'] = '';
         $_REQUEST['regione'] = 'EUROPE';
-        $_REQUEST['codAut'] = '';
+        $_REQUEST['codAut'] = 'TESTOK';
         $_REQUEST['alias'] = 'payment_testm_urlmac';
-        $_REQUEST['orario'] = '154631';
-        $_REQUEST['data'] = '20140422';
-        $_REQUEST['mac'] = 'e9826dde381f20de678a54ac61b1f75d805f964f';
-        $_REQUEST['importo'] = '5000';
+        $_REQUEST['orario'] = '060954';
+        $_REQUEST['data'] = '20140424';
+        $_REQUEST['mac'] = 'bfb7d9ce16c038fd06272a3f4aeb1ecffe0f2bff';
+        $_REQUEST['importo'] = '1';
         $_REQUEST['$BRAND'] = 'MasterCard';
         $_REQUEST['tipoProdotto'] = 'MASTERCARD - CREDIT - N';
         $_REQUEST['cognome'] = 'Test';
         $_REQUEST['languageId'] = '';
-        $_REQUEST['pan'] = '123456XXXXXX7890';
+        $_REQUEST['pan'] = '525599XXXXXX9992';
         $_REQUEST['nazionalita'] = 'ITA';
         $_REQUEST['divisa'] = 'EUR';
         $_REQUEST['email'] = 'test@test.com';
-        $_REQUEST['scadenza_pan'] = '200001';
+        $_REQUEST['scadenza_pan'] = '201407';
         $_REQUEST['esito'] = 'OK';
-        $_REQUEST['codTrans'] = '5356728f566af114300041d6';
+        $_REQUEST['codTrans'] = '53588e64566af10c9a0041ce';
         $_REQUEST['nome'] = 'Test';
-        $_REQUEST['messaggio'] = 'OK';
+        $_REQUEST['messaggio'] = 'Message OK';
 
         $client   = new Client('123', 'esempiodicalcolomac');
         $response = $client->parsePaymentResponse();
