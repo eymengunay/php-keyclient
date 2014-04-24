@@ -2,7 +2,10 @@
 
 namespace Eo\KeyClient;
 
+use Eo\KeyClient\Exception\KeyClientException;
 use Eo\KeyClient\Payment\PaymentRequestInterface;
+use Eo\KeyClient\Payment\PaymentResponse;
+use Eo\KeyClient\Payment\PaymentResponseInterface;
 
 /**
  * Client
@@ -55,7 +58,7 @@ class Client
             'url_back'   => $payment->getCancelUrl(),
             'languageId' => $payment->getLanguage(),
 
-            'mac'        => $this->signPayment($payment)
+            'mac'        => $this->calculateSignature($payment)
         );
 
         if ($mail = $payment->getMail()) {
@@ -70,20 +73,98 @@ class Client
     }
 
     /**
-     * Sign payment
+     * Parse paymentResponse
      *
-     * @param  PaymentRequestInterface $payment
+     * @return PaymentResponse
+     */
+    public function parsePaymentResponse()
+    {
+        $request = new \ArrayObject($_REQUEST);
+        $fields  = array(
+            'session_id'   => 'session',
+            'regione'      => 'region',
+            'codAut'       => 'authCode',
+            'alias'        => 'alias',
+            'orario'       => 'time',
+            'data'         => 'date',
+            'mac'          => 'signature',
+            'importo'      => 'amount',
+            '$BRAND'       => 'brand',
+            'tipoProdotto' => 'type',
+            'cognome'      => 'lastName',
+            'languageId'   => 'language',
+            'pan'          => 'cc',
+            'nazionalita'  => 'nationality',
+            'divisa'       => 'currency',
+            'email'        => 'mail',
+            'scadenza_pan' => 'CCExpiresAt',
+            'esito'        => 'result',
+            'codTrans'     => 'transactionCode',
+            'nome'         => 'firstName',
+            'messaggio'    => 'message'
+        );
+
+        // Create paymentRequest
+        $response = new PaymentResponse();
+
+        // Set response fields
+        foreach ($fields as $key => $val) {
+            if ($request->offsetExists($key) === false) {
+                throw new KeyClientException('Missing parameters passed');
+            }
+
+            $setter = sprintf('set%s', ucfirst($val));
+            $response->$setter($request->offsetGet($key));
+        }
+
+        // Verify signature and its exception
+        if ($this->verifySignature($response)) {
+            throw new KeyClientException('Signature can not be verified');
+        }
+
+        return $response;
+    }
+
+    /**
+     * Calculate signature
+     *
+     * @param  PaymentRequestInterface $paymentRequest
      * @return string
      */
-    public function signPayment(PaymentRequestInterface $payment)
+    public function calculateSignature(PaymentRequestInterface $paymentRequest)
     {
         $mac = strtr('codTrans={transactionCode}divisa={currency}importo={amount}{secret}', array(
-            '{transactionCode}' => $payment->getTransactionCode(),
-            '{currency}'        => $payment->getCurrency(),
-            '{amount}'          => $payment->getAmount(),
+            '{transactionCode}' => $paymentRequest->getTransactionCode(),
+            '{currency}'        => $paymentRequest->getCurrency(),
+            '{amount}'          => $paymentRequest->getAmount(),
             '{secret}'          => $this->secret
         ));
 
         return sha1($mac);
+    }
+
+    /**
+     * Verify signature
+     *
+     * @param  PaymentResponseInterface $paymentResponse
+     * @return bool
+     */
+    public function verifySignature(PaymentResponseInterface $paymentResponse)
+    {
+        $mac = strtr('codTrans={transactionCode}esito={result}importo={amount}divisa={currency}data={date}orario={time}codAut={authCode}{secret}', array(
+            '{transactionCode}' => $paymentResponse->getTransactionCode(),
+            '{result}'          => $paymentResponse->getResult(),
+            '{amount}'          => $paymentResponse->getAmount(),
+            '{currency}'        => $paymentResponse->getCurrency(),
+            '{date}'            => $paymentResponse->getDate(),
+            '{time}'            => $paymentResponse->getTime(),
+            '{authCode}'        => $paymentResponse->getAuthCode(),
+            '{secret}'          => $this->secret
+        ));
+
+        $generated = sha1($mac);
+        $given     = $paymentResponse->getSignature();
+
+        return $generated === $given;
     }
 }
