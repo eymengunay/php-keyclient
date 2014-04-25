@@ -72,8 +72,6 @@ switch ($response->getResult()) {
 
 ## Requirements
 * PHP 5.3+
-* [zip](http://php.net/manual/en/book.zip.php)
-* [OpenSSL](http://www.php.net/manual/en/book.openssl.php)
 
 ## Running Tests
 Before submitting a patch for inclusion, you need to run the test suite to check that you have not broken anything.
