@@ -24,6 +24,17 @@ To add PHP-KeyClient as a local, per-project dependency to your project, simply 
 
 ## Usage Example
 
+### Workflow
+
+```
+                                                    --> canceled
+                                                    |
+Create payment url –> Redirect user to payment url -|
+                                                    |
+                                                    --> confirmed -> Handle return response
+```
+
+### Creating payment url
 ```
 <?php
 
@@ -37,6 +48,26 @@ $url = $client->createPaymentUrl($payment);
 
 // Redirect to payment url
 header( "Location: $url" );
+```
+
+### Handling return response
+```
+<?php
+
+use Eo\KeyClient\Client;
+
+$client   = new Client('YOUR-ALIAS', 'YOUR-SECRET');
+$response = $client->parsePaymentResponse();
+
+// $response is an instance of Eo\KeyClient\Payment\PaymentResponse
+switch ($response->getResult()) {
+    case 'OK':
+        # Payment success...
+        break;
+    case 'KO':
+        # Payment error...
+        break;
+}
 ```
 
 ## Requirements
