@@ -60,7 +60,7 @@ $client   = new Client('YOUR-ALIAS', 'YOUR-SECRET');
 $response = $client->parsePaymentResponse();
 
 // $response is an instance of Eo\KeyClient\Payment\PaymentResponse
-switch ($response->getResult()) {
+switch ($response->get('esito')) {
     case 'OK':
         # Payment success...
         break;
@@ -72,6 +72,13 @@ switch ($response->getResult()) {
 
 ## Requirements
 * PHP 5.3+
+
+## Breaking Changes
+
+### Version 0.2.0
+
+* [`PaymentRequest`](https://github.com/eymengunay/php-keyclient/blob/master/src/Payment/PaymentRequest.php) and [`PaymentResponse`](https://github.com/eymengunay/php-keyclient/blob/master/src/Payment/PaymentResponse.php) classes refactored
+* [`Client`](https://github.com/eymengunay/php-keyclient/blob/master/src/Client.php) class [`parsePaymentResponse`](https://github.com/eymengunay/php-keyclient/blob/master/src/Client.php#L66) now accepts a [`Symfony\Component\HttpFoundation\Request`](https://github.com/symfony/symfony/blob/master/src/Symfony/Component/HttpFoundation/Request.php)
 
 ## Running Tests
 Before submitting a patch for inclusion, you need to run the test suite to check that you have not broken anything.
