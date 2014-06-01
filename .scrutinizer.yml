@@ -65,8 +65,9 @@ tools:
                 - 'bin/*'
                 - 'library/*'
             paths: {  }
-    external_code_coverage:
-        timeout: 600
+    php_code_coverage: true
+before_commands:
+    - "composer install --prefer-source"
 after_commands: {  }
 artifacts: {  }
 build_failure_conditions: {  }
