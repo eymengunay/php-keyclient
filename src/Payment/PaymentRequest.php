@@ -8,21 +8,6 @@ namespace Eo\KeyClient\Payment;
 class PaymentRequest extends AbstractPayment implements PaymentRequestInterface
 {
     /**
-     * @var string
-     */
-    protected $completeUrl;
-
-    /**
-     * @var string
-     */
-    protected $cancelUrl;
-
-    /**
-     * @var string
-     */
-    protected $s2s;
-
-    /**
      * Class constructor
      *
      * @param int    $amount          Total amount expressed in cents
@@ -33,53 +18,26 @@ class PaymentRequest extends AbstractPayment implements PaymentRequestInterface
      */
     public function __construct($amount, $currency, $transactionCode, $completeUrl, $cancelUrl)
     {
-        $this->amount          = $amount;
-        $this->currency        = $currency;
-        $this->transactionCode = $transactionCode;
-        $this->completeUrl     = $completeUrl;
-        $this->cancelUrl       = $cancelUrl;
+        parent::__construct(array(
+            'importo'  => $amount,
+            'divisa'   => $currency,
+            'codTrans' => $transactionCode,
+            'url'      => $completeUrl,
+            'url_back' => $cancelUrl
+        ));
     }
 
     /**
-     * Get completeUrl
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    public function getCompleteUrl()
+    protected function getRequiredParams()
     {
-        return $this->completeUrl;
-    }
-
-    /**
-     * Get cancelUrl
-     *
-     * @return string
-     */
-    public function getCancelUrl()
-    {
-        return $this->cancelUrl;
-    }
-
-    /**
-     * Set s2s
-     *
-     * @param  string $s2s
-     * @return self
-     */
-    public function setS2S($s2s)
-    {
-        $this->s2s = $s2s;
-
-        return $this;
-    }
-
-    /**
-     * Get s2s
-     *
-     * @return string
-     */
-    public function getS2S()
-    {
-        return $this->s2s;
+        return array(
+            'importo',
+            'divisa',
+            'codTrans',
+            'url',
+            'url_back'
+        );
     }
 }

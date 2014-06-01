@@ -11,6 +11,9 @@
             "email": "eymen@egunay.com"
         }
     ],
+    "require" : {
+        "symfony/http-foundation": "~2.3"
+    },
     "require-dev": {
         "phpunit/phpunit": "*"
     },

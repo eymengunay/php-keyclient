@@ -2,176 +2,81 @@
 
 namespace Eo\KeyClient\Payment;
 
+use Eo\KeyClient\Exception\KeyClientException;
+
 /**
  * AbstractPayment
  */
-class AbstractPayment
+abstract class AbstractPayment
 {
     /**
-     * @var int
+     * @var array
      */
-    protected $amount;
+    protected $params = array();
 
     /**
-     * @var string
-     */
-    protected $currency;
-
-    /**
-     * @var string
-     */
-    protected $transactionCode;
-
-    /**
-     * @var string
-     */
-    protected $session;
-
-    /**
-     * @var string
-     */
-    protected $language;
-
-    /**
-     * @var string
-     */
-    protected $mail;
-
-    /**
-     * Set amount
+     * Class constructor
      *
-     * @param  int  $amount
+     * @param array $params
+     */
+    public function __construct(array $params = array())
+    {
+        $missing = array();
+        foreach ($this->getRequiredParams() as $key) {
+            if (array_key_exists($key, $params) === false) {
+                array_push($missing, $key);
+            }
+        }
+
+        if (empty($missing) === false) {
+            throw new KeyClientException('Missing parameters passed: ' . implode(', ', $missing));
+        }
+
+        $this->params = $params;
+    }
+
+    /**
+     * Configure params
+     *
+     * @return array
+     */
+    abstract protected function getRequiredParams();
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->params;
+    }
+
+    /**
+     * Setter
+     *
+     * @param  string $key
+     * @param  mixed  $val
      * @return self
      */
-    public function setAmount($amount)
+    public function set($key, $val)
     {
-        $this->amount = $amount;
+        $this->params[$key] = $val;
 
         return $this;
     }
 
     /**
-     * Get amount
+     * Getter
      *
-     * @return int
+     * @param  string $key
+     * @param  mixed  $default
+     * @return mixed
      */
-    public function getAmount()
+    public function get($key, $default = null)
     {
-        return $this->amount;
-    }
+        if (array_key_exists($key, $this->params)) {
+            return $this->params[$key];
+        }
 
-    /**
-     * Set currency
-     *
-     * @param  string $currenct
-     * @return self
-     */
-    public function setCurrency($currency)
-    {
-        $this->currency = $currency;
-
-        return $this;
-    }
-
-    /**
-     * Get currency
-     *
-     * @return string
-     */
-    public function getCurrency()
-    {
-        return $this->currency;
-    }
-
-    /**
-     * Set transactionCode
-     *
-     * @param  string $transactionCode
-     * @return self
-     */
-    public function setTransactionCode($transactionCode)
-    {
-        $this->transactionCode = $transactionCode;
-
-        return $this;
-    }
-
-    /**
-     * Get transactionCode
-     *
-     * @return string
-     */
-    public function getTransactionCode()
-    {
-        return $this->transactionCode;
-    }
-
-    /**
-     * Set session
-     *
-     * @param  string $session
-     * @return self
-     */
-    public function setSession($session)
-    {
-        $this->session = $session;
-
-        return $this;
-    }
-
-    /**
-     * Get session
-     *
-     * @return string
-     */
-    public function getSession()
-    {
-        return $this->session;
-    }
-
-    /**
-     * Set language
-     *
-     * @param  string $language
-     * @return self
-     */
-    public function setLanguage($language)
-    {
-        $this->language = $language;
-
-        return $this;
-    }
-
-    /**
-     * Get language
-     *
-     * @return string
-     */
-    public function getLanguage()
-    {
-        return $this->language;
-    }
-
-    /**
-     * Set mail
-     *
-     * @param  string $mail
-     * @return self
-     */
-    public function setMail($mail)
-    {
-        $this->mail = $mail;
-
-        return $this;
-    }
-
-    /**
-     * Get mail
-     *
-     * @return string
-     */
-    public function getMail()
-    {
-        return $this->mail;
+        return $default;
     }
 }
