@@ -35,7 +35,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $url,
-            'https://ecommerce.keyclient.it/ecomm/ecomm/DispatcherServlet?importo=1&divisa=EUR&codTrans=transactionCode&url=http%3A%2F%2Fexample.com%2Fcompleted&url_back=http%3A%2F%2Fexample.com%2Fcanceled&session_id=123456&languageId=ITA-ENG&alias=payment_testm_urlmac&mac=abb95ee2a0c7017d046624a2e08816efe0c2e389'
+            'https://ecommerce.nexi.it/ecomm/ecomm/DispatcherServlet?importo=1&divisa=EUR&codTrans=transactionCode&url=http%3A%2F%2Fexample.com%2Fcompleted&url_back=http%3A%2F%2Fexample.com%2Fcanceled&session_id=123456&languageId=ITA-ENG&alias=payment_testm_urlmac&mac=abb95ee2a0c7017d046624a2e08816efe0c2e389'
         );
     }
 
