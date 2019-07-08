@@ -16,7 +16,7 @@ class Client
     /**
      * @var string
      */
-    protected $endpoint = 'https://ecommerce.keyclient.it/ecomm/ecomm/DispatcherServlet';
+    protected $endpoint = 'https://ecommerce.nexi.it/ecomm/ecomm/DispatcherServlet';
 
     /**
      * @var string
